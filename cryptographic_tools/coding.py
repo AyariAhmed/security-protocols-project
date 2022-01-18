@@ -1,5 +1,7 @@
 import base64
 
+from simple_term_menu import TerminalMenu
+
 
 class Encoding:
     """"Allows the encoding and decoding of a message based on the specified method """
@@ -65,3 +67,76 @@ class Encoding:
 
         else:
             print("Provided decoding method is not supported!")
+
+    @staticmethod
+    def menu():
+        while True:
+            print("====> Encoding")
+            m_choices = ['Encode a message', 'Decode a message', 'Go back']
+            terminal = TerminalMenu(m_choices)
+            entry = terminal.show()
+            if entry == 0:
+                while True:
+                    message = None
+                    while message is None:
+                        message = str(input("-Message to encode: "))
+                    print("---choose the encoding method---")
+                    choices = ['0- utf-8', '1- ascii', '2- base64', '3- base32', '4- base16', '5 - Go back']
+                    terminal = TerminalMenu(choices)
+                    menu_entry_index = terminal.show()
+                    encoded = None
+                    if menu_entry_index == 0:
+                        encoded = Encoding.encode(message, 'utf8')
+                    elif menu_entry_index == 1:
+                        encoded = Encoding.encode(message, 'ascii')
+                    elif menu_entry_index == 2:
+                        encoded = Encoding.encode(message, 'base64')
+                    elif menu_entry_index == 3:
+                        encoded = Encoding.encode(message, 'base32')
+                    elif menu_entry_index == 4:
+                        encoded = Encoding.encode(message, 'base16')
+                    else:
+                        break
+
+                    print('Decode the encoded message ?')
+                    yn_choices = ['Yes', 'No']
+                    terminal = TerminalMenu(yn_choices)
+                    resp = terminal.show()
+                    if resp == 1:
+                        print('No')
+                        break
+                    if menu_entry_index == 0:
+                        Encoding.decode(encoded, 'utf8')
+                    elif menu_entry_index == 1:
+                        Encoding.decode(encoded, 'ascii')
+                    elif menu_entry_index == 2:
+                        Encoding.decode(encoded, 'base64')
+                    elif menu_entry_index == 3:
+                        Encoding.decode(encoded, 'base32')
+                    elif menu_entry_index == 4:
+                        Encoding.decode(encoded, 'base16')
+
+                    print('\t------------------------')
+                    break
+            elif entry == 1:
+                encoded = None
+                while encoded is None:
+                    encoded = str(input("-Encoded Message: "))
+                print("---choose the encoding method---")
+                choices = ['0- utf-8', '1- ascii', '2- base64', '3- base32', '4- base16', '5 - Go back']
+                terminal = TerminalMenu(choices)
+                menu_entry_index = terminal.show()
+                if menu_entry_index == 0:
+                    Encoding.decode(encoded, 'utf8')
+                elif menu_entry_index == 1:
+                    Encoding.decode(encoded, 'ascii')
+                elif menu_entry_index == 2:
+                    Encoding.decode(encoded, 'base64')
+                elif menu_entry_index == 3:
+                    Encoding.decode(encoded, 'base32')
+                elif menu_entry_index == 4:
+                    Encoding.decode(encoded, 'base16')
+                else:
+                    break
+            else:
+                break

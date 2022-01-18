@@ -75,6 +75,8 @@ class Hash:
                         Hash.crack_hash(hashed, 'sha256', True)
 
                     print('\t------------------------')
+                    break
+
             elif entry == 1:
                 hashed = None
                 while hashed is None:
