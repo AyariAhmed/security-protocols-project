@@ -35,6 +35,7 @@ class Auth:
         while not re.fullmatch(email_regex, email):
             print('Invalid email (should be <first_name>.<last_name>@insat.ucar.tn format)')
             email = str(input("-Email: "))
+        email = email.lower()
         password = None
         identical = False  # verification of user password and password confirmation
         while not identical:
@@ -81,6 +82,7 @@ class Auth:
         password = None
         while not password:
             password = getpass.getpass('-Password: ')
+        email = email.lower()
         retrieved_user = find_user_by_email(email)
         if retrieved_user and sha512_crypt.verify(password, retrieved_user[4]):
             remaining_attempts_double_auth = 2
@@ -102,4 +104,4 @@ class Auth:
                 print('Please try again later')
 
         else:
-            print('Please check your credentials')
+            print('Please check your credentials (Invalid Credentials)')
