@@ -7,10 +7,8 @@ services:
     image: mysql:5.7
     command: --init-file /data/application/init.sql
     environment:
-      MYSQL_ROOT_PASSWORD: 'ayari'
-      MYSQL_USER: 'ayari'
-      MYSQL_PASS: 'ayari'
-      MYSQL_DATABASE: 'ssi_db'
+      MYSQL_ROOT_PASSWORD: ${DOCKER_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DOCKER_MYSQL_DATABASE}
     volumes:
     - ./data/db:/var/lib/mysql
     - ./data/init.sql:/data/application/init.sql
