@@ -1,13 +1,10 @@
-from helpers.db_connection import DBConnection
-from auth.authentication import Auth
-from auth.db_queries import find_all_users, find_user_by_email, add_user
-from helpers.mailing_service import send_email
+from cryptographic_tools.hashing import Hash
 
 
-# Auth.registration()
-Auth.login()
-# print(find_user_by_email('ahmed.ayari@insat.ucar.tn')[4])
 
+Hash.hash('ahmed','md5',True)
 
+t = Hash.hash('admin', 'sha256', True)
+Hash.crack_hash(t,'sha256',True)
 
 
