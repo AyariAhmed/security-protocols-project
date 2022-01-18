@@ -6,7 +6,6 @@ def send_email(receiver_email: str, verification_code: str):
     config = dotenv_values('.env')
     email = config['EMAIL']
     password = config['EMAIL_PASSWORD']
-    print(email,password)
 
     yag = yagmail.SMTP(email, password)
 
