@@ -1,7 +1,6 @@
-from cryptographic_tools.asymmetric_encryption import Asymmetric
+from cryptographic_tools.hashing import Hash
 
-pub , priv = Asymmetric.gen_elgamal_keys()
 
-t = Asymmetric.elgamal_encrypt('ahmed',pub)
-print(t)
-print(Asymmetric.elgamal_decrypt(t,priv))
+Hash.menu()
+
+

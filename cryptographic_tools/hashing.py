@@ -1,6 +1,8 @@
 import hashlib
 import os
 
+from simple_term_menu import TerminalMenu
+
 
 class Hash:
 
@@ -31,3 +33,63 @@ class Hash:
                     print(f"Cracked message: {word}")
                 return word
         print("The provided hashed message couldn't be found in the word list!")
+
+    @staticmethod
+    def menu():
+        while True:
+            print("====> Hashing")
+            m_choices = ['Hash a message', 'Crack a hashed message','Go back']
+            terminal = TerminalMenu(m_choices)
+            entry = terminal.show()
+            if entry == 0:
+                while True:
+                    message = None
+                    while message is None:
+                        message = str(input("-Message to hash: "))
+                    print("---choose a hashing algorithm---")
+                    choices = ['0- MD5', '1- SHA1', '2- SHA256', '3- Quit']
+                    terminal = TerminalMenu(choices)
+                    menu_entry_index = terminal.show()
+                    hashed = None
+                    if menu_entry_index == 0:
+                        hashed = Hash.hash(message, 'md5', True)
+                    elif menu_entry_index == 1:
+                        hashed = Hash.hash(message, 'sha1', True)
+                    elif menu_entry_index == 2:
+                        hashed = Hash.hash(message, 'sha256', True)
+                    else:
+                        break
+
+                    print('Crack the hashed message ?')
+                    yn_choices = ['Yes', 'No']
+                    terminal = TerminalMenu(yn_choices)
+                    resp = terminal.show()
+                    if resp == 1:
+                        print('No')
+                        break
+                    if menu_entry_index == 0:
+                        Hash.crack_hash(hashed, 'md5', True)
+                    elif menu_entry_index == 1:
+                        Hash.crack_hash(hashed, 'sha1', True)
+                    elif menu_entry_index == 2:
+                        Hash.crack_hash(hashed, 'sha256', True)
+
+                    print('\t------------------------')
+            elif entry == 1:
+                hashed = None
+                while hashed is None:
+                    hashed = str(input("-hashed Message: "))
+                print("---choose the hashing algorithm---")
+                choices = ['0- MD5', '1- SHA1', '2- SHA256', '3- Quit']
+                terminal = TerminalMenu(choices)
+                menu_entry_index = terminal.show()
+                if menu_entry_index == 0:
+                    Hash.crack_hash(hashed, 'md5', True)
+                elif menu_entry_index == 1:
+                    Hash.crack_hash(hashed, 'sha1', True)
+                elif menu_entry_index == 2:
+                    Hash.crack_hash(hashed, 'sha256', True)
+                else:
+                    break
+            else:
+                break
