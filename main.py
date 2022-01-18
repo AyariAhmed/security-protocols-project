@@ -4,9 +4,9 @@ from auth.db_queries import find_all_users, find_user_by_email, add_user
 from helpers.mailing_service import send_email
 
 
-Auth.registration()
+# Auth.registration()
 Auth.login()
-
+# print(find_user_by_email('ahmed.ayari@insat.ucar.tn')[4])
 
 
 

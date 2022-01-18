@@ -1,5 +1,5 @@
-from helpers.db_connection import DBConnection
-from auth.db_queries import add_user,find_user_by_email
+from passlib.hash import sha512_crypt
+from auth.db_queries import add_user, find_user_by_email
 from helpers.mailing_service import send_email
 import getpass
 import re
@@ -81,8 +81,8 @@ class Auth:
         password = None
         while not password:
             password = getpass.getpass('-Password: ')
-
-        if find_user_by_email(email) is not None:
+        retrieved_user = find_user_by_email(email)
+        if retrieved_user and sha512_crypt.verify(password, retrieved_user[4]):
             remaining_attempts_double_auth = 2
             confirmed_double_auth = False
             while not confirmed_double_auth and remaining_attempts_double_auth > 0:
