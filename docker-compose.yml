@@ -1,0 +1,16 @@
+version: '3.1'
+services:
+  mysql:
+    container_name: ssi_mysql
+    restart: always
+    platform: linux/x86_64
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 'ayari'
+      MYSQL_USER: 'ayari'
+      MYSQL_PASS: 'ayari'
+      MYSQL_DATABASE: 'ssi_db'
+    volumes:
+    - ./data/db:/var/lib/mysql
+    ports:
+      - "3306:3306"
