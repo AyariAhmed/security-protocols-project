@@ -13,3 +13,7 @@ EMAIL= "<YOUR EMAIL ADDRESS>"
 EMAIL_PASSWORD= "<YOUR EMAIL PASSWORD>"
 ```
 (No worries, your data is safe with us 😅)
+- start the application with 
+```bash
+python3 main.py 
+```
