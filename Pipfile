@@ -4,6 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+passlib = "*"
+mysql-connector-python= "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.8"
