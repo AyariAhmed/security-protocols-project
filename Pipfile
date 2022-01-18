@@ -10,6 +10,7 @@ python-dotenv = "*"
 yagmail = "*"
 pycrypto = "*"
 stdiomask = "*"
+rsa = "*"
 
 [requires]
 python_version = "3.8"

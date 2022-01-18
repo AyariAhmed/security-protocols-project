@@ -1,6 +1,7 @@
 import hashlib
 import os
 
+
 class Hash:
 
     @staticmethod

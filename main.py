@@ -1,4 +1,7 @@
-from cryptographic_tools.symmetric_encryption import Symmetric
+from cryptographic_tools.asymmetric_encryption import Asymmetric
 
-a = Symmetric.encrypt('Ahmed', "DES")
-Symmetric.decrypt(a, "DES")
+pub , priv = Asymmetric.gen_elgamal_keys()
+
+t = Asymmetric.elgamal_encrypt('ahmed',pub)
+print(t)
+print(Asymmetric.elgamal_decrypt(t,priv))
