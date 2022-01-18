@@ -8,8 +8,13 @@ passlib = "*"
 mysql-connector-python= "*"
 python-dotenv = "*"
 yagmail = "*"
+pycrypto = "*"
+stdiomask = "*"
 
 [requires]
 python_version = "3.8"
 
 [dev-packages]
+
+[scripts]
+start = "python3 main.py"
