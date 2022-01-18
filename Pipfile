@@ -7,6 +7,7 @@ name = "pypi"
 passlib = "*"
 mysql-connector-python= "*"
 python-dotenv = "*"
+yagmail = "*"
 
 [requires]
 python_version = "3.8"
