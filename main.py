@@ -1,10 +1,10 @@
 from simple_term_menu import TerminalMenu
+from cryptographic_tools.asymmetric_encryption import Asymmetric
 from cryptographic_tools.coding import Encoding
 from cryptographic_tools.hashing import Hash
 from cryptographic_tools.symmetric_encryption import Symmetric
+
 from os import system
-
-
 
 
 def clear():
@@ -12,7 +12,6 @@ def clear():
 
 
 def main_menu():
-
     while True:
         clear()
         print('Which tool are you looking for?')
@@ -27,7 +26,7 @@ def main_menu():
         elif entry == 2:
             Symmetric.menu()
         elif entry == 3:
-            pass
+            Asymmetric.menu()
         elif entry == 4:
             pass
         else:
