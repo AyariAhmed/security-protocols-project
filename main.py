@@ -18,7 +18,7 @@ def main_menu():
         clear()
         print('Which tool are you looking for?')
         m_choices = ['0- Encoding', '1- Hashing', '2- Symmetric encryption', '3- Asymmetric encryption',
-                     '4- Authentication','5- Chatroom', '6- Quit']
+                     '4- Authentication', '5- Chatroom', '6- Quit']
         terminal = TerminalMenu(m_choices)
         entry = terminal.show()
         if entry == 0:
@@ -32,9 +32,9 @@ def main_menu():
         elif entry == 4:
             Auth.menu()
         elif entry == 5:
-            client= Client()
+            client = Client()
             client.menu()
-            
+
         else:
             break
     print('Until next time...')
