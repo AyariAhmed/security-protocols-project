@@ -1,7 +1,9 @@
 from passlib.hash import sha512_crypt
+from simple_term_menu import TerminalMenu
+
 from auth.db_queries import add_user, find_user_by_email
 from helpers.mailing_service import send_email
-import getpass
+from stdiomask import getpass
 import re
 import random
 import string
@@ -39,11 +41,11 @@ class Auth:
         password = None
         identical = False  # verification of user password and password confirmation
         while not identical:
-            password = getpass.getpass('-Password: ')
+            password = getpass('-Password: ')
             while not len(password) > 6:
                 print('Invalid password (should be at least 6 characters long)')
-                password = getpass.getpass('-Password: ')
-            password_confirmation = getpass.getpass('-Password Confirmation: ')
+                password = getpass('-Password: ')
+            password_confirmation = getpass('-Password Confirmation: ')
             identical = password_confirmation == password
             if not identical:
                 print('Password confirmation does\'t match the given password! Please try again.')
@@ -81,7 +83,7 @@ class Auth:
             email = str(input("-Email: "))
         password = None
         while not password:
-            password = getpass.getpass('-Password: ')
+            password = getpass('-Password: ')
         email = email.lower()
         retrieved_user = find_user_by_email(email)
         if retrieved_user and sha512_crypt.verify(password, retrieved_user[4]):
@@ -105,3 +107,21 @@ class Auth:
 
         else:
             print('Please check your credentials (Invalid Credentials)')
+
+    @staticmethod
+    def menu():
+        while True:
+            print("====> Authentication with 2 factor auth")
+            print('(data is persisted)')
+            m_choices = ['Register', 'Login', 'Go back']
+            terminal = TerminalMenu(m_choices)
+            entry = terminal.show()
+            if entry == 0:
+                Auth.registration()
+                print('--------------------------')
+            elif entry == 1:
+                Auth.login()
+                print('--------------------------')
+            else:
+                break
+

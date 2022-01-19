@@ -1,4 +1,5 @@
 from simple_term_menu import TerminalMenu
+from auth.authentication import Auth
 from cryptographic_tools.asymmetric_encryption import Asymmetric
 from cryptographic_tools.coding import Encoding
 from cryptographic_tools.hashing import Hash
@@ -28,7 +29,7 @@ def main_menu():
         elif entry == 3:
             Asymmetric.menu()
         elif entry == 4:
-            pass
+            Auth.menu()
         else:
             break
     print('Until next time...')
