@@ -1,10 +1,15 @@
 import mysql.connector
 from mysql.connector import errorcode
+from dotenv import dotenv_values
+
+config = dotenv_values('.env')
+config_database = config['DOCKER_MYSQL_DATABASE']
+config_password = config['DOCKER_MYSQL_ROOT_PASSWORD']
 
 
 class DBConnector(object):
 
-    def __init__(self, user='root', password='ayari', database='ssi_db', host='localhost'):
+    def __init__(self, user='root', password=config_password, database=config_database, host='localhost'):
         self.database = database
         self.user = user
         self.password = password
