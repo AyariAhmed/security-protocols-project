@@ -9,13 +9,18 @@ docker-compose up -d
 ```
 - For the mailing service to work correctly, create a `.env` file and add the following :
 ```text
-EMAIL= "<YOUR EMAIL ADDRESS>"
+EMAIL= "<YOUR GMAIL ADDRESS>" 
 EMAIL_PASSWORD= "<YOUR EMAIL PASSWORD>"
 // for simplicity sake i'm keeping the db env variables
 DOCKER_MYSQL_ROOT_PASSWORD= "ayari"
 DOCKER_MYSQL_DATABASE= "ssi_db"
 ```
 (No worries, your data is safe with us 😅)
+
+`The provided email must be a gamil account !`
+Dont forget to enable allow login from less secure apps in your gmail account !
+
+
 - start the application with 
 ```bash
 python3 main.py 
