@@ -34,7 +34,7 @@ def main_menu():
         elif entry == 5:
             client= Client()
             client.menu()
-            break
+            
         else:
             break
     print('Until next time...')

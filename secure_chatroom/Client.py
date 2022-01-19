@@ -3,6 +3,8 @@ import threading
 import time
 from simple_term_menu import TerminalMenu
 import rsa
+from cryptographic_tools.hashing import Hash
+
 
 class Client:
 
@@ -14,7 +16,7 @@ class Client:
       
         
         
-        self.id=x = int(input("Enter your id : "))
+        self.id = int(input("Enter your id : "))
                 
         host = '127.0.0.1'
         port = 4000+self.id  
@@ -23,49 +25,53 @@ class Client:
         self.socket.bind((host, port))
 
 
-        return
-
-        self.receiver_id=int(input("Enter the receiver's id : "))
 
 
-        receiving_thread = threading.Thread(target=self.receiving_thread)
-        sending_thread = threading.Thread(target=self.sending_thread)
+
+    def start_discussion(self):
+
+        receiving_thread = threading.Thread(target=self.receiver)
+        sending_thread = threading.Thread(target=self.sender)
 
         receiving_thread.start()
         sending_thread.start()
         
 
 
-
         receiving_thread.join()
         sending_thread.join()
         
-
+        print("To exit the room type exit() .")
+        
 
 
     def menu(self):
 
         terminal = TerminalMenu(
-            ['0- Connect to another client ','1- Wait for connection  ','2- Quit' ]
+            ['0- Connect to another client ','1- Wait for connection  ','2- Go back' ]
         )
         entry = terminal.show()
 
 
         if entry == 0:
             self.init_handshake()
+            self.start_discussion()
         elif entry == 1:
             self.wait_for_handshake()
+            self.start_discussion()
         else:
-            exit()
+            self.quit()
+        
 
-        print("mine =" ,self.public_key)
-        print("his = ", self.receiver_public_key)
 
 
     def init_handshake(self):
 
         self.receiver_id=int(input("Enter the receiver's id : "))
         receiver_address=('127.0.0.1', 4000+self.receiver_id)
+
+        print("_____________________________________________")
+        print('Starting handshake...')
         self.socket.sendto(str.encode("hello"), receiver_address) # init hello
         hello, address = self.socket.recvfrom(1024) # waiting for hello back
         if(hello.decode("utf-8")!='hello' or address!=receiver_address):
@@ -76,10 +82,21 @@ class Client:
         finish, _ = self.socket.recvfrom(1024) # waiting for finish
         if(finish.decode("utf-8")!='finish' ):
             exit()
+        
+        print('Handshake done ...')
+        self.running=True
+        print('Secure connection with {id} on {address}'.format(id=self.receiver_id,address=receiver_address))
+        print("_____________________________________________")
 
     def wait_for_handshake(self):
-        print("waiting for connection...")
+
+
+        print("_____________________________________________")
+        print("Waiting for connection...")
+
         hello, receiver_address = self.socket.recvfrom(1024) # waiting for hello
+
+        print('Starting handshake...')
         if(hello.decode("utf-8")!='hello'):
             exit()
         self.receiver_id=receiver_address[1]-4000 # getting the other client's id 
@@ -89,28 +106,70 @@ class Client:
         self.receiver_public_key=pickle.loads(data)
         self.socket.sendto(str.encode("finish"), receiver_address) # confirm finish
 
-    def sending_thread(self):
+
+        print('Handshake done ...')
+        self.running=True
+        print('Secure connection with {id} on {address}'.format(id=self.receiver_id,address=receiver_address))
+        print("_____________________________________________")
+
+    def sender(self):
 
         receiver_address=('127.0.0.1', 4000+self.receiver_id)
     
-        while True :
+        while self.running :
+
             message=input()
-            self.socket.sendto(str.encode(message), receiver_address)
+            
+            encrypted_message=rsa.encrypt(message.encode(), self.receiver_public_key)
+            signature=rsa.sign(message.encode(), self.private_key,"SHA-1")
+
+
+            # sending both the encrypted message and its signature
+            self.socket.sendto(encrypted_message, receiver_address)
+            self.socket.sendto(signature, receiver_address)
+
+
+            if(message=="exit()"):
+                self.exit()
 
 
 
-    def receiving_thread(self):
+    def receiver(self):
 
-        while True :
-            data, _ = self.socket.recvfrom(1024)
-            print(data.decode("utf-8") )
+        while self.running :
+            
+            # receiving both the encrypted message and its signature
+            encrypted_message, _ = self.socket.recvfrom(1024)
+            signature,_=self.socket.recvfrom(1024)
+
+            
+            message=rsa.decrypt(encrypted_message, self.private_key)
+            used_hash=rsa.verify(message, signature, self.receiver_public_key) # verify signature 
+
+            
+                
+            
+            message=message.decode("utf-8").strip()
+
+            if(used_hash!="SHA-1"):
+                print("error while verifying message signature : " , message)
+            else:
+                print("From Client {0} :".format(self.receiver_id), message)
+            
+            
+            if(message=="exit()"):
+                self.exit()
+                
+
+
+    def exit(self):
+        print("Quitting ... Press enter to exit ")
+
+        self.running=False
+        receiver_address=('127.0.0.1', 4000+self.receiver_id)
+        encrypted_message=rsa.encrypt("exit()".encode(), self.receiver_public_key)
+        self.socket.sendto(encrypted_message, receiver_address)
+        self.socket.close()
 
     
-
-    def test_thread(self):
-
-        while True :
-            time.sleep(2)
-            print("test")
-        
 
