@@ -17,7 +17,7 @@ DOCKER_MYSQL_DATABASE= "ssi_db"
 ```
 (No worries, your data is safe with us 😅)
 
-`The provided email must be a gamil account !`
+`The provided email must be a gamil account` <br/>
 Dont forget to enable allow login from less secure apps in your gmail account !
 
 
